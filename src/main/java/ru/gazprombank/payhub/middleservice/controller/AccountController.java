@@ -1,5 +1,6 @@
 package ru.gazprombank.payhub.middleservice.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,8 @@ public class AccountController {
     private final AccountClient accountClient;
 
     @PostMapping
-    public String createAccount(@PathVariable("id") Long userId, @RequestBody CreateAccountRequestDto requestDto) {
+    public String createAccount(@PathVariable("id") Long userId,
+                                @RequestBody @Valid CreateAccountRequestDto requestDto) {
         log.info("Create user: {}", requestDto.accountName());
         accountClient.create(userId, requestDto);
         return String.format("Аккаунт %s создан", requestDto.accountName());
