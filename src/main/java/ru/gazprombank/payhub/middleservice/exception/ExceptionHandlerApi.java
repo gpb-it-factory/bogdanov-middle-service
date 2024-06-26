@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.gazprombank.payhub.middleservice.dto.ResponseMessage;
 
 import java.util.stream.Collectors;
 
@@ -19,30 +20,30 @@ public class ExceptionHandlerApi {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public String onMethodArgumentNotValidException(final MethodArgumentNotValidException e) {
+    public ResponseMessage onMethodArgumentNotValidException(final MethodArgumentNotValidException e) {
         String exception = e.getBindingResult().getFieldErrors().stream()
                 .map(error -> new StringBuilder().append(error.getField()).append(": ").append(error.getDefaultMessage()))
-                .collect(Collectors.joining(System.lineSeparator()));
+                .collect(Collectors.joining(" "));
         log.error(exception);
-        return exception;
+        return new ResponseMessage(exception);
     }
 
     @ExceptionHandler(RetryableException.class)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public String onRetryableException(final RetryableException e) {
+    public ResponseMessage onRetryableException(final RetryableException e) {
         log.error(e.getMessage());
-        return "Попробуйте позже";
+        return new ResponseMessage("Попробуйте позже");
     }
 
     @ExceptionHandler(FeignException.class)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public String onFeignException(final FeignException e) {
+    public ResponseMessage onFeignException(final FeignException e) {
         log.error(e.getMessage());
         if (e.status() == 409) {
-            return "Пользователь уже зарегистрирован";
+            return new ResponseMessage("Пользователь уже зарегистрирован");
         }
-        return e.getMessage();
+        return new ResponseMessage(e.getMessage());
     }
 }
