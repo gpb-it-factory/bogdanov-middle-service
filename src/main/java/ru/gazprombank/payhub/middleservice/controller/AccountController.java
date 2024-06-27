@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.gazprombank.payhub.middleservice.client.AccountClient;
-import ru.gazprombank.payhub.middleservice.dto.AccountsListResponse;
 import ru.gazprombank.payhub.middleservice.dto.CreateAccountRequestDto;
 import ru.gazprombank.payhub.middleservice.dto.ResponseMessage;
 

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import ru.gazprombank.payhub.middleservice.dto.AccountsListResponse;
+import ru.gazprombank.payhub.middleservice.dto.AccountsResponseDto;
 import ru.gazprombank.payhub.middleservice.dto.CreateAccountRequestDto;
 
 import java.util.List;
@@ -17,5 +17,5 @@ public interface AccountClient {
                 @RequestBody CreateAccountRequestDto createAccountRequestDto);
 
     @GetMapping("/v2/users/{id}/accounts")
-    List<AccountsListResponse> get(@PathVariable("id") String userId);
+    List<AccountsResponseDto> get(@PathVariable("id") String userId);
 }
