@@ -1,7 +1,6 @@
 package ru.gazprombank.payhub.middleservice.exception;
 
 import feign.FeignException;
-import feign.RetryableException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 
@@ -28,10 +27,10 @@ public class ExceptionHandlerApi {
         return new ResponseMessage(exception);
     }
 
-    @ExceptionHandler(RetryableException.class)
+    @ExceptionHandler(feign.RetryableException.class)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public ResponseMessage onRetryableException(final RetryableException e) {
+    public ResponseMessage onRetryableException(final feign.RetryableException e) {
         log.error(e.getMessage());
         return new ResponseMessage("Попробуйте позже");
     }
