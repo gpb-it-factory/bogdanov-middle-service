@@ -20,7 +20,10 @@ public class AccountController {
     @PostMapping
     public ResponseMessage createAccount(@PathVariable("id") Long userId,
                                          @RequestBody @Valid CreateAccountRequestDto requestDto) {
-        log.info("Create user: {}", requestDto.accountName());
+        if (requestDto.accountName().isEmpty() || requestDto.accountName().isBlank()) {
+           requestDto = new CreateAccountRequestDto("Акционный");
+        }
+        log.info("Create account: {}", requestDto.accountName());
         accountClient.create(userId, requestDto);
         return new ResponseMessage(String.format("Аккаунт %s создан", requestDto.accountName()));
     }
