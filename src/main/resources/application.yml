@@ -2,4 +2,4 @@ server:
   port: 7070
 
 backend-server:
-  url: http://localhost:7080
+  url: http://84.201.135.27:8080

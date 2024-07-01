@@ -18,10 +18,10 @@ public class AccountController {
     private final AccountClient accountClient;
 
     @PostMapping
-    public ResponseMessage createAccount(@PathVariable("id") Long userId,
-                                         @RequestBody @Valid CreateAccountRequestDto requestDto) {
+    public ResponseMessage create(@PathVariable("id") Long userId,
+                                  @RequestBody @Valid CreateAccountRequestDto requestDto) {
         if (requestDto.accountName().isEmpty() || requestDto.accountName().isBlank()) {
-           requestDto = new CreateAccountRequestDto("Акционный");
+            requestDto = new CreateAccountRequestDto("Акционный");
         }
         log.info("Create account: {}", requestDto.accountName());
         accountClient.create(userId, requestDto);
@@ -29,7 +29,7 @@ public class AccountController {
     }
 
     @GetMapping
-    public ResponseMessage getAccountsById(@PathVariable("id") String userId) {
+    public ResponseMessage get(@PathVariable("id") String userId) {
         log.info("Получение счетов для user c userId: {}", userId);
         String response = accountClient.get(userId).stream()
                 .map(account -> String.format("Остаток на счете %s: %s", account.accountName(), account.amount()))
