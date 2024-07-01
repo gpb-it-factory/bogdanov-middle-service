@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.mockito.ArgumentMatchers.any;
+import static ru.gazprombank.payhub.middleservice.util.TestDataUtils.*;
 
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
@@ -35,10 +36,6 @@ public class UserControllerTest {
     void setUp() {
         Mockito.reset(userClient);
     }
-
-    public static final String MUST_NOT_BE_BLANK = "не должно быть пустым";
-    public static final String SIZE_MUST_BE_BETWEEN_3_AND_255 = "размер должен находиться в диапазоне от 3 до 255";
-    public static final String MUST_NOT_BE_NULL = "не должно равняться null";
 
     @Test
     @DisplayName("Успешное создание пользователя")

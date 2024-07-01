@@ -9,16 +9,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static ru.gazprombank.payhub.middleservice.util.TestDataUtils.*;
 
 public class CreateUserRequestDtoTest {
-
-    public static final String MUST_NOT_BE_BLANK = "не должно быть пустым";
-    public static final String SIZE_MUST_BE_BETWEEN_3_AND_255 = "размер должен находиться в диапазоне от 3 до 255";
-    public static final String MUST_NOT_BE_NULL = "не должно равняться null";
 
     private final Validator validator;
 
