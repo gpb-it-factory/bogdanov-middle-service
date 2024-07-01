@@ -23,7 +23,6 @@ public class UserControllerIntegrationTest {
     private final ObjectMapper mapper = new ObjectMapper();
     @Autowired
     private UserController userController;
-
     @Autowired
     private WebTestClient webTestClient;
 

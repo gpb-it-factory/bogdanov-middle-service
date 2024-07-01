@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import ru.gazprombank.payhub.middleservice.controller.AccountController;
 import ru.gazprombank.payhub.middleservice.dto.CreateAccountRequestDto;
 import ru.gazprombank.payhub.middleservice.dto.ResponseMessage;
 
@@ -20,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AccountControllerIntegrationTest {
     private final ObjectMapper mapper = new ObjectMapper();
-
     @Autowired
     private WebTestClient webTestClient;
 

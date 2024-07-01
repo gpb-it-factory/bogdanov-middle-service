@@ -1,7 +1,6 @@
 package ru.gazprombank.payhub.middleservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import feign.Request;
 import feign.RetryableException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -32,10 +32,12 @@ public class AccountControllerTest {
     private AccountClient accountClient;
     @Autowired
     private ObjectMapper objectMapper;
+
     @BeforeEach
     void setUp() {
         Mockito.reset(accountClient);
     }
+
     @Test
     @DisplayName("Успешное создание аккаунта")
     void testCreateAccount() throws Exception {
