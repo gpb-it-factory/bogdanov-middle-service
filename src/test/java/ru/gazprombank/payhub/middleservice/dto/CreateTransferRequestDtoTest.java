@@ -1,6 +1,5 @@
 package ru.gazprombank.payhub.middleservice.dto;
 
-
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -8,9 +7,10 @@ import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CreateTransferRequestDtoTest {
@@ -140,10 +140,10 @@ public class CreateTransferRequestDtoTest {
 
     private void assertInvalid(final CreateTransferRequestDto dto, final String expectedMessage) {
         Set<ConstraintViolation<CreateTransferRequestDto>> violations = validator.validate(dto);
-        Set<String> messages = violations.stream()
+        Optional<String> message = violations.stream()
                 .map(ConstraintViolation::getMessage)
-                .collect(Collectors.toSet());
-        System.out.println(messages);
-        assertTrue(messages.contains(expectedMessage), "Expected constraint violation message: " + expectedMessage);
+                .findFirst();
+        assertTrue(message.isPresent());
+        assertEquals(message.get(), expectedMessage);
     }
 }

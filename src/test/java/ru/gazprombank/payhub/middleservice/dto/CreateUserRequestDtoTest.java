@@ -7,9 +7,11 @@ import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CreateUserRequestDtoTest {
@@ -87,9 +89,10 @@ public class CreateUserRequestDtoTest {
 
     private void assertInvalid(final CreateUserRequestDto dto, final String expectedMessage) {
         Set<ConstraintViolation<CreateUserRequestDto>> violations = validator.validate(dto);
-        Set<String> messages = violations.stream()
+        Optional<String> message = violations.stream()
                 .map(ConstraintViolation::getMessage)
-                .collect(Collectors.toSet());
-        assertTrue(messages.contains(expectedMessage), "Expected constraint violation message: " + expectedMessage);
+                .findFirst();
+        assertTrue(message.isPresent());
+        assertEquals(message.get(), expectedMessage);
     }
 }
