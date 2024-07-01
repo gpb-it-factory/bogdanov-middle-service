@@ -7,10 +7,9 @@ import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.gazprombank.payhub.middleservice.util.TestDataUtils.*;
 
@@ -74,7 +73,7 @@ public class CreateTransferRequestDtoTest {
     @DisplayName("Создание CreateTransferRequestDto с пустым to")
     void testCreateTransferRequestDtoWithBlankTo() {
         final String from = "Alice";
-        final String to = "";
+        final String to = " ";
         final String amount = "100.00";
 
         CreateTransferRequestDto dto = new CreateTransferRequestDto(from, to, amount);
@@ -137,10 +136,10 @@ public class CreateTransferRequestDtoTest {
 
     private void assertInvalid(final CreateTransferRequestDto dto, final String expectedMessage) {
         Set<ConstraintViolation<CreateTransferRequestDto>> violations = validator.validate(dto);
-        Optional<String> message = violations.stream()
+        Set<String> messages = violations.stream()
                 .map(ConstraintViolation::getMessage)
-                .findFirst();
-        assertTrue(message.isPresent());
-        assertEquals(message.get(), expectedMessage);
+                .collect(Collectors.toSet());
+
+        assertTrue(messages.contains(expectedMessage), "Ожидаемое сообщение " + expectedMessage);
     }
 }

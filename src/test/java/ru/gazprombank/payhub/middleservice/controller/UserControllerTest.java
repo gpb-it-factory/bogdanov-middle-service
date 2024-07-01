@@ -1,6 +1,8 @@
 package ru.gazprombank.payhub.middleservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import feign.Request;
+import feign.RetryableException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,6 +37,26 @@ public class UserControllerTest {
     @BeforeEach
     void setUp() {
         Mockito.reset(userClient);
+    }
+
+    @Test
+    @DisplayName("Обработка feign.RetryableException при создании пользователя")
+    void testRetryableExceptionHandling() throws Exception {
+        final Long userId = 12345L;
+        final String userName = "testUserName";
+        final CreateUserRequestDto requestDto = new CreateUserRequestDto(userId, userName);
+        final String expectedMessage = "Попробуйте позже";
+        RetryableException retryableException = Mockito.mock(RetryableException.class);
+        Mockito.when(retryableException.getMessage()).thenReturn("Temporary failure");
+
+        Mockito.doThrow(retryableException)
+                .when(userClient).create(any(CreateUserRequestDto.class));
+
+        mockMvc.perform(post("/api/v1/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(new ResponseMessage(expectedMessage))));
     }
 
     @Test

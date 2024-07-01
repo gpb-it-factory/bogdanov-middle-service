@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -85,10 +86,10 @@ public class CreateUserRequestDtoTest {
 
     private void assertInvalid(final CreateUserRequestDto dto, final String expectedMessage) {
         Set<ConstraintViolation<CreateUserRequestDto>> violations = validator.validate(dto);
-        Optional<String> message = violations.stream()
+        Set<String> messages = violations.stream()
                 .map(ConstraintViolation::getMessage)
-                .findFirst();
-        assertTrue(message.isPresent());
-        assertEquals(message.get(), expectedMessage);
+                .collect(Collectors.toSet());
+
+        assertTrue(messages.contains(expectedMessage), "Ожидаемое сообщение " + expectedMessage);
     }
 }

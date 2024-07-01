@@ -48,7 +48,7 @@ public class ExceptionHandlerApi {
     public ResponseMessage onFeignException(final FeignException e) {
         log.error(e.getMessage());
         if (e.status() == 409) {
-            return new ResponseMessage("Пользователь уже зарегистрирован");
+            return new ResponseMessage("Вы уже зарегистрировались");
         }
         return new ResponseMessage(e.getMessage());
     }
