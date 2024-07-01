@@ -5,22 +5,16 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.test.web.servlet.MockMvc;
 import ru.gazprombank.payhub.middleservice.controller.UserController;
 import ru.gazprombank.payhub.middleservice.dto.CreateUserRequestDto;
 import ru.gazprombank.payhub.middleservice.dto.ResponseMessage;
 
-import java.nio.charset.StandardCharsets;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static ru.gazprombank.payhub.middleservice.util.TestDataUtils.createCreateUserRequestDto;
 
 @AutoConfigureWireMock
