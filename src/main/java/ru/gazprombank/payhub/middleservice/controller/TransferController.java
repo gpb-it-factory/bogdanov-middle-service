@@ -16,7 +16,7 @@ public class TransferController {
     private final TransferClient transferClient;
 
     @PostMapping
-    public ResponseMessage createAccount(@RequestBody @Valid CreateTransferRequestDto transferDto) {
+    public ResponseMessage create(@RequestBody @Valid CreateTransferRequestDto transferDto) {
         log.info("Create transfer: {}", transferDto.from());
         if(transferDto.from().equals(transferDto.to())) {
             return new ResponseMessage("Вы не можете совершить перевод на собственный счет");

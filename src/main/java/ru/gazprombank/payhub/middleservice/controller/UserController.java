@@ -20,8 +20,8 @@ public class UserController {
 
     @PostMapping
     public ResponseMessage create(@Valid @RequestBody CreateUserRequestDto createUserRequestDto) {
-        log.info("Create user: {}", createUserRequestDto);
+        log.info("Create user: {}", createUserRequestDto.userId());
         userClient.create(createUserRequestDto);
-        return new ResponseMessage(String.format("Клиент %s зарегистрирован в банке", createUserRequestDto.userName()));
+        return new ResponseMessage(String.format("Клиент %s зарегистрирован в банке", createUserRequestDto.userId()));
     }
 }

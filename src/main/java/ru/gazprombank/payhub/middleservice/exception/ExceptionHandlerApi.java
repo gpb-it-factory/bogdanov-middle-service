@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.gazprombank.payhub.middleservice.dto.ResponseMessage;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -20,11 +21,17 @@ public class ExceptionHandlerApi {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public ResponseMessage onMethodArgumentNotValidException(final MethodArgumentNotValidException e) {
-        String exception = e.getBindingResult().getFieldErrors().stream()
-                .map(error -> new StringBuilder().append(error.getField()).append(": ").append(error.getDefaultMessage()))
-                .collect(Collectors.joining(" "));
-        log.error(exception);
-        return new ResponseMessage(exception);
+        List<String> errors = e.getBindingResult().getFieldErrors().stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .collect(Collectors.toList());
+
+        String primaryError = errors.stream()
+                .filter(error -> error.contains("не должно быть пустым"))
+                .findFirst()
+                .orElse(String.join(" ", errors));
+
+        log.error(primaryError);
+        return new ResponseMessage(primaryError);
     }
 
     @ExceptionHandler(feign.RetryableException.class)
@@ -41,7 +48,7 @@ public class ExceptionHandlerApi {
     public ResponseMessage onFeignException(final FeignException e) {
         log.error(e.getMessage());
         if (e.status() == 409) {
-            return new ResponseMessage("Пользователь уже зарегистрирован");
+            return new ResponseMessage("Вы уже зарегистрировались");
         }
         return new ResponseMessage(e.getMessage());
     }
